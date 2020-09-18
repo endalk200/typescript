@@ -22,55 +22,66 @@ let big: bigint = 100n;
 
 ## String
 Another fundamental part of creating programs in JavaScript for webpages and servers alike is working with textual data. As in other languages, we use the type string to refer to these textual datatypes. Just like JavaScript, TypeScript also uses double quotes (") or single quotes (') to surround string data.
-
+```typescript
 let color: string = "blue";
-color = "red";Try
+color = "red";
+```
 You can also use template strings, which can span multiple lines and have embedded expressions. These strings are surrounded by the backtick/backquote (`) character, and embedded expressions are of the form ${ expr }.
-
+```typescript
 let fullName: string = `Bob Bobbington`;
 let age: number = 37;
 let sentence: string = `Hello, my name is ${fullName}.
 
-I'll be ${age + 1} years old next month.`;Try
-This is equivalent to declaring sentence like so:
+I'll be ${age + 1} years old next month.`;
+```
 
+This is equivalent to declaring sentence like so:
+```typescript
 let sentence: string =
   "Hello, my name is " +
   fullName +
   ".\n\n" +
   "I'll be " +
   (age + 1) +
-  " years old next month.";Try
-Array
+  " years old next month.";
+```
+
+## Array
 TypeScript, like JavaScript, allows you to work with arrays of values. Array types can be written in one of two ways. In the first, you use the type of the elements followed by [] to denote an array of that element type:
+```typescript
+let list: number[] = [1, 2, 3];
+```
 
-let list: number[] = [1, 2, 3];Try
 The second way uses a generic array type, Array<elemType>:
+```typescript
+let list: Array<number> = [1, 2, 3];
+```
 
-let list: Array<number> = [1, 2, 3];Try
-Tuple
+## Tuple
 Tuple types allow you to express an array with a fixed number of elements whose types are known, but need not be the same. For example, you may want to represent a value as a pair of a string and a number:
-
+```typescript
 // Declare a tuple type
 let x: [string, number];
 // Initialize it
 x = ["hello", 10]; // OK
 // Initialize it incorrectly
 x = [10, "hello"]; // Error
-Type 'number' is not assignable to type 'string'.
-Type 'string' is not assignable to type 'number'.
-Try
-When accessing an element with a known index, the correct type is retrieved:
+// Type 'number' is not assignable to type 'string'.
+// Type 'string' is not assignable to type 'number'.
+```
 
+When accessing an element with a known index, the correct type is retrieved:
+```typescript
 // OK
 console.log(x[0].substring(1));
 
 console.log(x[1].substring(1));
-Property 'substring' does not exist on type 'number'.
-Try
+// Property 'substring' does not exist on type 'number'.
+```
 Accessing an element outside the set of known indices fails with an error:
-
+```typescript
 x[3] = "world";
+```
 Tuple type '[string, number]' of length '2' has no element at index '3'.
 
 console.log(x[5].toString());
