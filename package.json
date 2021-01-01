@@ -1,22 +1,26 @@
 {
   "name": "typescript",
   "version": "1.0.0",
-  "description": "Typescript documentation and code samples",
+  "description": "<!-- Typescript logo --> # Typescript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel --out-file bundle.js main.ts",
+    "watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/endalk200/typescript.git"
   },
-  "keywords": [
-    "Typescript"
-  ],
-  "author": "endalkachew",
+  "author": "endalk200",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/endalk200/typescript/issues"
   },
-  "homepage": "https://github.com/endalk200/typescript#readme"
+  "homepage": "https://github.com/endalk200/typescript#readme",
+  "devDependencies": {
+    "ts-loader": "^8.0.13",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1"
+  }
 }
