@@ -43,31 +43,24 @@ level `ts` files use `tsconfig` file.
 
     "target": "ES5",
 
-    "allowJs": true, // alow js files to imported in ts files
-    "checkJs": true, // works in conjuction with allowjs. Throw errors in js files
+    "allowJs": true,
+    "checkJs": true,
 
-    "outDir": "dist", // Directory to output the compiled js files
+    "outDir": "dist",
 
-    "sourceMap": true // For debugers to use
+    "sourceMap": true
   },
-  // To specify in which directory to compile. The following specifies to compile all ts files in
-  // src and its subdirectories
   "include": [
     "src/**/*"
   ],
-  // "files": ["filename.ts"] // to specify each files instead of include
   "exclude": [
     "node_modules",
     "**/*.spec.ts"
   ],
-  // To compile in watch mode so that when you change your ts files it would be compiled automaticaly
   "watchOptions": {
-    // Use native file system events for files and directories
     "watchFile": "useFsEvents",
     "watchDirectory": "useFsEvents",
 
-    // Poll files for updates more frequently
-    // when they're updated a lot.
     "fallbackPolling": "dynamicPriority"
   }
 }
