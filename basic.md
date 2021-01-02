@@ -301,3 +301,144 @@ However, when using the `--strictNullChecks` flag, null and undefined are only a
 their respective types (the one exception being that undefined is also assignable to void). This helps 
 avoid many common errors. In cases where you want to pass in either a string or null or undefined, 
 you can use the union type string | null | undefined.
+
+## Never
+The never type represents the type of values that never occur. For instance, never is the return type for a function 
+expression or an arrow function expression that always throws an exception or one that never returns. Variables also 
+acquire the type never when narrowed by any type guards that can never be true.
+
+The never type is a subtype of, and assignable to, every type; however, no type is a subtype of, or assignable to, 
+never (except never itself). Even any isn’t assignable to never.
+
+Some examples of functions returning never:
+```typescript
+// Function returning never must not have a reachable end point
+function error(message: string): never {
+  throw new Error(message);
+}
+
+// Inferred return type is never
+function fail() {
+  return error("Something failed");
+}
+
+// Function returning never must not have a reachable end point
+function infiniteLoop(): never {
+  while (true) {}
+}
+```
+
+## Object
+object is a type that represents the `non-primitive` type, i.e. anything that is not `number`, `string`, `boolean`, `bigint`, 
+`symbol`, `null`, or `undefined`.
+
+With object type, APIs like Object.create can be better represented. For example:
+
+```typescript
+declare function create(o: object | null): void;
+
+// OK
+create({ prop: 0 });
+create(null);
+
+create(42);
+```
+
+    Argument of type '42' is not assignable to parameter of type 'object | null'.
+
+```typescript
+create("string");
+```
+
+    Argument of type '"string"' is not assignable to parameter of type 'object | null'.
+
+```typescript
+create(false);
+```
+
+    Argument of type 'false' is not assignable to parameter of type 'object | null'.
+
+```typescript
+create(undefined);
+```
+
+    Argument of type 'undefined' is not assignable to parameter of type 'object | null'.
+
+Generally, you won’t need to use this.
+
+## Type Assertions
+Sometimes you’ll end up in a situation where you’ll know more about a value than TypeScript does. Usually, 
+this will happen when you know the type of some entity could be more specific than its current type.
+
+Type assertions are a way to tell the compiler “trust me, I know what I’m doing.” A type assertion is like a 
+type cast in other languages, but it performs no special checking or restructuring of data. It has no runtime
+impact and is used purely by the compiler. TypeScript assumes that you, the programmer, 
+have performed any special checks that you need.
+
+Type assertions have two forms.
+
+One is the as-syntax:
+```typescript
+let someValue: unknown = "this is a string";
+
+let strLength: number = (someValue as string).length;
+```
+
+The other version is the “angle-bracket” syntax:
+
+```typescript
+let someValue: unknown = "this is a string";
+
+let strLength: number = (<string>someValue).length;
+```
+
+The two samples are equivalent. Using one over the other is mostly a choice of preference; however, when using 
+TypeScript with JSX, only as-style assertions are allowed.
+
+## A note about let
+let is similar to var in some respects, but allows users to avoid some of the common “gotchas” that users run into 
+in JavaScript.
+
+### Block-scoping
+When a variable is declared using let, it uses what some call lexical-scoping or block-scoping. Unlike variables 
+declared with var whose scopes leak out to their containing function, block-scoped variables are not visible 
+outside of their nearest containing block or for-loop.
+
+```typescript
+function f(input: boolean) {
+  let a = 100;
+
+  if (input) {
+    // Still okay to reference 'a'
+    let b = a + 1;
+    return b;
+  }
+
+  // Error: 'b' doesn't exist here
+  return b;
+}
+```
+
+### Re-declarations and Shadowing
+With `var` declarations, we mentioned that it didn’t matter how many times you declared your variables; you just got one.
+
+```typescript
+function f(x) {
+  var x;
+  var x;
+
+  if (true) {
+    var x;
+  }
+}
+```
+
+In the above example, all declarations of x actually refer to the same x, and this is perfectly valid. This often ends 
+up being a source of bugs. Thankfully, let declarations are not as forgiving.
+
+```typescript
+let x = 10;
+let x = 20; // error: can't re-declare 'x' in the same scope
+```
+
+<!-- https://www.typescriptlang.org/docs/handbook/variable-declarations.html -->
